@@ -1,4 +1,5 @@
 node_modules
+<<<<<<< HEAD
 build
 src
 test
@@ -9,3 +10,7 @@ README-mvvm.md
 README-sugar.md
 README.md
 logs.text
+=======
+logs.text
+bin
+>>>>>>> rebuild-watcher
