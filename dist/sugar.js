@@ -801,13 +801,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;/**
+	/**
 	 * cache 系统模块实例缓存队列
 	 * 模块唯一 id 与全部模块实例的对应关系
 	 */
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
-		return {'id': 1, 'length': 0}
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	!(module.exports = {'id': 1, 'length': 0});
 
 /***/ },
 /* 6 */
@@ -1546,7 +1544,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		__webpack_require__(2),
 		__webpack_require__(6),
 		__webpack_require__(11)
-	], __WEBPACK_AMD_DEFINE_RESULT__ = function(dom, ajax, sync, util, Module, MVVM) {
+	], __WEBPACK_AMD_DEFINE_RESULT__ = function(dom, ajax, sync, util, Module, SVM) {
 
 		/**
 		 * Container 视图基础模块
@@ -1578,9 +1576,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					// mvvm 数据模型对象
 					'model'   : null,
 					// 视图渲染完成后的回调函数
-					'cbRender': 'viewReady',
-					// 移除节点子模块标记
-					'tidyNode': true
+					'cbRender': 'viewReady'
 				});
 
 				// 通用 dom 处理方法
@@ -1762,7 +1758,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				// 初始化 mvvm 对象
 				var model = c.model;
 				if (util.isObject(model)) {
-					this.vm = new MVVM(el, model, this);
+					this.vm = new SVM(el, model, this);
 				}
 
 				// 追加到目标容器

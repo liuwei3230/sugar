@@ -1,8 +1,6 @@
 /*!
- * mvvm.js
- * mvvm library for sugar
+ * svm.js v1.0.2
  * (c) 2016 TANG
- * this library can be used independently (without sugar)
  * https://github.com/tangbc/sugar
  * released under the MIT license.
  */
@@ -12,9 +10,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["MVVM"] = factory();
+		exports["SVM"] = factory();
 	else
-		root["MVVM"] = factory();
+		root["SVM"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
