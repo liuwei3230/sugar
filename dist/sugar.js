@@ -1,5 +1,5 @@
 /*!
- * sugar.js v1.0.2
+ * sugar.js v1.0.4
  * (c) 2016 TANG
  * https://github.com/tangbc/sugar
  * released under the MIT license.
@@ -264,6 +264,21 @@ return /******/ (function(modules) { // webpackBootstrap
 			return true;
 		}
 
+		/**
+		 * 是否是空对象
+		 * @param   {Object}   target
+		 * @return  {Boolean}
+		 */
+		function isEmpty(target) {
+			for (var i in target) {
+				if (hasOwn.call(target, i)) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 
 		/**
 		 * Util 构造函数
@@ -274,12 +289,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.WIN = WIN;
 			this.DOC = DOC;
 
+			this.isBool = isBool;
 			this.isFunc = isFunc;
 			this.isArray = isArray;
+			this.isEmpty = isEmpty;
 			this.isNumber = isNumber;
 			this.isObject = isObject;
 			this.isString = isString;
-			this.isBool = isBool;
 		}
 
 		var up = Util.prototype;
@@ -2428,9 +2444,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
 		__webpack_require__(14),
-		__webpack_require__(10),
 		__webpack_require__(2)
-	], __WEBPACK_AMD_DEFINE_RESULT__ = function(Parser, dom, util) {
+	], __WEBPACK_AMD_DEFINE_RESULT__ = function(Parser, util) {
 
 		function Vfor(vm) {
 			this.vm = vm;
@@ -2452,7 +2467,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			var watcher = vm.watcher;
 			var parent = node.parentNode;
-			var isOption = node.tagName === 'OPTION';
+			var isOption = node.tagName === 'OPTION' && parent.tagName === 'SELECT';
 
 			// 取值信息
 			var scope = this.getScope(fors, iterator);
@@ -2488,13 +2503,13 @@ return /******/ (function(modules) { // webpackBootstrap
 				return;
 			}
 
-			listArgs = [node, array, loopAccess, alias, aliases, accesses, scopes, ++level];
+			listArgs = [node, array, 0, loopAccess, alias, aliases, accesses, scopes, ++level];
 			template = this.buildList.apply(this, listArgs);
 
 			node.parentNode.replaceChild(template, node);
 
 			if (isOption) {
-				this.froceUpdateOption(parent, fors);
+				this.updateOption(parent, fors);
 			}
 
 			// 数组更新信息
@@ -2509,35 +2524,36 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// 监测根数组的数组操作
 			if (!fors) {
-				watcher.watchModel(loopAccess, function(path, last, method) {
-					this.update(parent, node, last, method, updates);
+				watcher.watchModel(loopAccess, function(path, last, method, args) {
+					this.update(parent, node, last, method, updates, args);
 				}, this);
 			}
 			// 监测嵌套数组的数组操作
 			else {
-				watcher.watchAccess(loopAccess, function(path, last, method) {
-					this.update(parent, node, last, method, updates);
+				watcher.watchAccess(loopAccess, function(path, last, method, args) {
+					this.update(parent, node, last, method, updates, args);
 				}, this);
 			}
 		}
 
 		/**
-		 * 强制更新 select/option 在 vfor 中的值
+		 * 更新 select/option 在 vfor 中的值
 		 * @param   {Select}  select
 		 * @param   {Object}  fors
 		 */
-		vfor.froceUpdateOption = function(select, fors) {
+		vfor.updateOption = function(select, fors) {
 			var model = select._vmodel;
 			var getter = this.getEval(fors, model);
 			var scope = this.getScope(fors, model);
 			var value = getter.call(scope, scope);
-			this.vm.updater.updateSelectChecked(select, value, dom.hasAttr(select, 'multiple'));
+			this.vm.updater.updateSelectChecked(select, value);
 		}
 
 		/**
 		 * 根据源数组构建循环板块集合
 		 * @param   {DOMElement}  node      [循环模板]
 		 * @param   {Array}       array     [取值数组]
+		 * @param   {Number}      start     [开始的下标计数]
 		 * @param   {String}      paths     [取值数组访问路径]
 		 * @param   {String}      alias     [当前取值域别名]
 		 * @param   {Array}       aliases   [取值域别名数组]
@@ -2546,11 +2562,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * @param   {Number}      level     [当前循环层级]
 		 * @return  {Fragment}              [板块文档碎片集合]
 		 */
-		vfor.buildList = function(node, array, paths, alias, aliases, accesses, scopes, level) {
+		vfor.buildList = function(node, array, start, paths, alias, aliases, accesses, scopes, level) {
 			var vm = this.vm;
 			var fragments = util.createFragment();
 
-			util.each(array, function(scope, index) {
+			util.each(array, function(scope, i) {
+				var index = start + i;
 				var cloneNode = node.cloneNode(true);
 				var fors, access = paths + '*' + index;
 
@@ -2609,8 +2626,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * @param   {Array}       newArray  [新的数据重复列表]
 		 * @param   {String}      method    [数组操作]
 		 * @param   {Array}       updates   [更新信息]
+		 * @param   {Array}       args      [数组操作参数]
 		 */
-		vfor.update = function(parent, node, newArray, method, updates) {
+		vfor.update = function(parent, node, newArray, method, updates, args) {
 			switch (method) {
 				case 'push':
 					this.push.apply(this, arguments);
@@ -2624,13 +2642,16 @@ return /******/ (function(modules) { // webpackBootstrap
 				case 'shift':
 					this.shift.apply(this, arguments);
 					break;
-				// @todo: splice, sort, reverse 操作和直接赋值暂时都重新编译
+				case 'splice':
+					this.splice.apply(this, arguments);
+					break;
+				// sort、reverse 操作或直接赋值都重新编译
 				default: this.recompileArray.apply(this, arguments);
 			}
 		}
 
 		/**
-		 * 获取数组操作对应列表下标变化的关系
+		 * 获取 shift 或 unshift 操作对应列表下标变化的关系
 		 * @param   {String}  method  [数组操作]
 		 * @param   {Number}  length  [新数组长度]
 		 * @return  {Object}          [新数组下标的变化映射]
@@ -2762,7 +2783,85 @@ return /******/ (function(modules) { // webpackBootstrap
 				// 移位相关的订阅回调
 				this.vm.watcher.moveSubs(updates.access, map);
 			}
+		}
 
+		/**
+		 * 删除/替换循环体的指定数据 array.splice
+		 */
+		vfor.splice = function(parent, node, newArray, method, up, args) {
+			// 从数组的哪一位开始修改内容。如果超出了数组的长度，则从数组末尾开始添加内容；如果是负值，则表示从数组末位开始的第几位。
+			var start = args.shift();
+			// 整数，表示要移除的数组元素的个数。
+			// 如果 deleteCount 是 0，则不移除元素。这种情况下，至少应添加一个新元素。
+			// 如果 deleteCount 大于 start 之后的元素的总数，则从 start 后面的元素都将被删除（含第 start 位）。
+			var deleteCont = args.shift();
+			// 要添加进数组的元素。如果不指定，则 splice() 只删除数组元素。
+			var insertItems = args, insertLength = args.length;
+
+			// 不删除也不添加
+			if (deleteCont === 0 && !insertLength) {
+				return;
+			}
+
+			var i, template, startChild, listArgs, udf;
+			var map = {}, alias = up.alias, length = newArray.length;
+
+			// 只删除 splice(2, 1);
+			var deleteOnly = deleteCont && !insertLength;
+			// 只插入 splice(2, 0, 'xxx')
+			var insertOnly = !deleteCont && insertLength;
+			// 删除并插入 splice(2, 1, 'xxx')
+			var deleAndIns = deleteCont && insertLength;
+
+			// 只删除
+			if (deleteOnly) {
+				for (i = 0; i < length; i++) {
+					map[i] = i >= start ? i + deleteCont : i;
+				}
+
+				if (util.isEmpty(map)) {
+					this.recompileArray.apply(this, arguments);
+					return;
+				}
+				else {
+					this.vm.watcher.moveSubs(up.access, map);
+					this.removeEl(parent, alias, start, deleteCont);
+				}
+			}
+			// 只插入 或 删除并插入
+			else if (insertOnly || deleAndIns) {
+				for (i = 0; i < length; i++) {
+					if (insertOnly) {
+						map[i] = i < start ? i : (i >= start && i < start + insertLength ? udf : i - insertLength);
+					}
+					else if (deleAndIns) {
+						map[i] = i < start ? i : (i >= start && i < start + insertLength ? udf : i - (insertLength - deleteCont));
+					}
+				}
+
+				if (util.isEmpty(map) || start === 0 && deleteCont > length) {
+					this.recompileArray.apply(this, arguments);
+					return;
+				}
+				else {
+					this.vm.watcher.moveSubs(up.access, map);
+				}
+
+				// 先删除选项
+				if (deleAndIns) {
+					this.removeEl(parent, alias, start, deleteCont);
+				}
+
+				// 开始的元素
+				startChild = this.getChild(parent, alias, start);
+				// 编译新添加的列表
+				listArgs = [node, insertItems, start, up.access, alias, up.aliases, up.accesses, up.scopes, up.level];
+				// 新增列表模板
+				template = this.buildList.apply(this, listArgs);
+
+				// 更新变化部分
+				parent.insertBefore(template, startChild);
+			}
 		}
 
 		/**
@@ -2808,16 +2907,69 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		/**
+		 * 获取 vfor 循环体指定下标的子节点
+		 * @param   {DOMElement}  parent  [父节点]
+		 * @param   {String}      alias   [循环体对象别名]
+		 * @param   {Number}      index   [子节点下标]
+		 * @return  {DOMElement}
+		 */
+		vfor.getChild = function(parent, alias, index) {
+			var i, e = 0, target = null, child;
+			var childNodes = parent.childNodes;
+
+			for (i = 0; i < childNodes.length; i++) {
+				child = childNodes[i];
+				if (child._vfor_alias === alias) {
+					if (e === index) {
+						target = child;
+						break;
+					}
+					e++;
+				}
+			}
+
+			return target;
+		}
+
+		/**
+		 * 删除 vfor 循环体指定的数据
+		 * @param   {DOMElement}  parent      [父节点]
+		 * @param   {String}      alias       [循环体对象别名]
+		 * @param   {Number}      start       [删除的下标起点]
+		 * @param   {Number}      deleteCont  [删除个数]
+		 */
+		vfor.removeEl = function(parent, alias, start, deleteCont) {
+			var childNodes = parent.childNodes;
+			var i, e = -1, child, scapegoats = [];
+
+			for (i = 0; i < childNodes.length; i++) {
+				child = childNodes[i];
+				if (child._vfor_alias === alias) {
+					e++;
+				}
+				// 删除的范围内
+				if (e >= start && e < start + deleteCont) {
+					scapegoats.push(child);
+				}
+			}
+
+			util.each(scapegoats, function(scapegoat) {
+				parent.removeChild(scapegoat);
+				return null;
+			});
+		}
+
+		/**
 		 * 重新编译循环体
 		 */
 		vfor.recompileArray = function(parent, node, newArray, method, up) {
-			var scapegoat, child;
-			var childNodes = parent.childNodes;
+			var child, scapegoat;
 			var template, alias = up.alias;
-			var listArgs = [node, newArray, up.access, alias, up.aliases, up.accesses, up.scopes, up.level];
+			var childNodes = parent.childNodes;
+			var listArgs = [node, newArray, 0, up.access, alias, up.aliases, up.accesses, up.scopes, up.level];
 
 			// 移除旧的监测
-			// this.vm.watcher.removeSubs(up.access);
+			this.vm.watcher.removeSubs(up.access);
 
 			// 重新构建循环板块
 			template = this.buildList.apply(this, listArgs);
@@ -3486,13 +3638,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * @param   {Boolean}        multi
 		 */
 		up.updateSelectChecked = function(select, selected, multi) {
-			var options = select.options;
-			var i, option, value, leng = options.length;
+			var i, option, value;
+			var options = select.options, leng = options.length;
+			var multiple = multi || dom.hasAttr(select, 'multiple');
 
 			for (i = 0; i < leng; i++) {
 				option = options[i];
 				value = option.value;
-				option.selected = multi ? selected.indexOf(value) !== -1 : selected === value;
+				option.selected = multiple ? selected.indexOf(value) !== -1 : selected === value;
 			}
 		}
 
@@ -3533,11 +3686,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * @param   {String}  path
 		 * @param   {Mix}     last
 		 * @param   {Mix}     old
+		 * @param   {Array}   args
 		 */
-		wp.change = function(path, last, old) {
+		wp.change = function(path, last, old, args) {
 			var isAccess = path.indexOf('*') !== -1;
 			var subs = isAccess ? this.$accessSubs[path] : this.$modelSubs[path];
-			this.trigger(subs, path, last, old);
+			this.trigger(subs, path, last, old, args);
 		}
 
 		/**
@@ -3548,9 +3702,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * @param   {Mix}     old
 		 * @param   {Array}   args
 		 */
-		wp.trigger = function(subs, path, last, old) {
+		wp.trigger = function(subs, path, last, old, args) {
 			util.each(subs, function(sub) {
-				sub.cb.call(sub.ct, path, last, old, sub.arg);
+				sub.cb.call(sub.ct, path, last, old, args || sub.arg);
 			});
 		}
 
@@ -3788,7 +3942,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * @param  {Array}      ignores   [忽略监测的字段]
 		 * @param  {Function}   callback  [变化回调函数]
 		 * @param  {Object}     context   [执行上下文]
-		 * @param  {Object}     args      [<可选>回调参数]
+		 * @param  {Object}     args      [<可选>回调额外参数]
 		 */
 		function Observer(object, ignores, callback, context, args) {
 			if (util.isString(callback)) {
@@ -3808,8 +3962,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// 记录当前数组操作
 			this.$action = 921;
-			// 避免触发下标的数组操作
-			this.$aviod = ['shift', 'unshift', 'splice'];
 			// 重写的 Array 方法
 			this.$methods = 'push|pop|shift|unshift|splice|sort|reverse'.split('|');
 
@@ -3926,8 +4078,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 						this.setCache(object, newValue, prop);
 
-						if (this.$aviod.indexOf(this.$action) === -1) {
-							this.triggerChange(paths.join('*'), newValue, oldValue);
+						if (this.$methods.indexOf(this.$action) === -1) {
+							this.trigger(paths.join('*'), newValue, oldValue);
 						}
 					}
 				}).bind(this)
@@ -3971,7 +4123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					self.observe(this, paths);
 
 					// 触发回调
-					self.triggerChange(path, this, method);
+					self.trigger(path, this, method, args);
 
 					return result;
 				}, true, false, true);
@@ -3984,10 +4136,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * 触发 object 变化回调
 		 * @param   {String}       path      [变更路径]
 		 * @param   {Mix}          last      [新值]
-		 * @param   {Mix|String}   old       [旧值/数组操作名称]
+		 * @param   {Mix|String}   old       [旧值，数组操作时为操作名称]
+		 * @param   {Array}        args      [数组操作时的参数]
 		 */
-		op.triggerChange = function(path, last, old) {
-			this.$callback.apply(this.$context, [path, last, old, this.$args]);
+		op.trigger = function(path, last, old, args) {
+			this.$callback.apply(this.$context, [path, last, old, args || this.$args]);
 		}
 
 		return Observer;
