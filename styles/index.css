@@ -1,0 +1,54 @@
+* {
+ 	box-sizing: border-box;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	color: black;
+}
+
+a {
+	color: #1e6bb8;
+	text-decoration: none;
+}
+a:hover {
+	/*text-decoration: underline;*/
+}
+
+/* 头部 */
+.header{
+	color: #fff;
+	padding: 2rem 4rem;
+	position: relative;
+	text-align: center;
+	background-color: #159957;
+	background-image: linear-gradient(120deg, rgba(33, 150, 243, 0.69), #009688);
+}
+.header .fork{
+	display: block;
+	position: absolute;
+	right: -50px;
+	top: 35px;
+	width: 200px;
+	color: #fff;
+	height: 35px;
+	line-height: 35px;
+	border: 2px solid #1B861F;
+	background: #4CAF50;
+	-moz-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+/* 分隔容器 */
+.section{
+	width: 75%;
+	margin: 0 auto;
+}
+.section img{
+	width: 100%;
+}
