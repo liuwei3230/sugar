@@ -1,4 +1,4 @@
-# mvvm.js
+# Api of mvvm.js
 
 `mvvm.js` 是一个非常轻量的 mvvm 库，指令系统功能齐全，能满足基本的 mvvm 模式开发需求。 **`mvvm` 对 `sugar` 没有任何依赖，如果只需要 mvvm 的功能而不需要组件模块化可直接使用 mvvm.js ~**
 
@@ -14,22 +14,22 @@ mvvm.js 的源代码都放在 `src/mvvm/` 目录下：
 
 ### 支持的指令列表：
 
-* [v-el](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-el)
-* [v-text](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-text)
-* [v-html](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-html)
-* [v-show](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-show)
-* [v-if](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-if)
-* [v-else](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-else)
-* [v-model](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-model)
-	* [v-model for text & textarea](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-model-for-text--textarea)
-	* [v-model for radio](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-model-for-radio)
-	* [v-model for checkbox](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-model-for-checkbox)
-	* [v-model for select](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-model-for-select)
-* [v-bind](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-bind)
-	* [v-bind:class](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-bindclass)
-	* [v-bind:style](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-bindstyle)
-* [v-on](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-on)
-* [v-for](https://github.com/tangbc/sugar/blob/master/README-mvvm.md#v-for)
+* [v-el](#v-el)
+* [v-text](#v-text)
+* [v-html](#v-html)
+* [v-show](#v-show)
+* [v-if](#v-if)
+* [v-else](#v-else)
+* [v-model](#v-model)
+	* [v-model for text & textarea](#v-model-for-text-amp-textarea)
+	* [v-model for radio](#v-model-for-radio)
+	* [v-model for checkbox](#v-model-for-checkbox)
+	* [v-model for select](#v-model-for-select)
+* [v-bind](#v-bind)
+	* [v-bind:class](#v-bind-class)
+	* [v-bind:style](#v-bind-style)
+* [v-on](#v-on)
+* [v-for](#v-for)
 
 
 ## 1. 定义一个 mvvm 实例

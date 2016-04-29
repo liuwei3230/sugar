@@ -1,8 +1,8 @@
 define([
-	'./api'
-], function(ApiBase) {
+	'./markdownRender'
+], function(MarkdownRender) {
 
-	var Intro = ApiBase.extend({
+	var IntroMarkdown = MarkdownRender.extend({
 		init: function(config) {
 			config = this.cover(config, {
 				'url': 'static/intro.md'
@@ -11,5 +11,5 @@ define([
 		}
 	});
 
-	return Intro;
+	return IntroMarkdown;
 });

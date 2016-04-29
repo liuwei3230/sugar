@@ -1,4 +1,4 @@
-# sugar.js
+# Api of sugar.js
 
 ## 1. 组件模块化机制
 根函数模块 `src/main/root.js` 实现 sugar 底层模块的继承方法 `extend`，每个模块都是从 `Root` 为根源继承而来， `extend` 是一个通过原型实现的类式继承（单继承），对传入的每个子类方法会挂载一个 `Super` 来实现对父类的调用。

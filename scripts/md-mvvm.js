@@ -1,8 +1,8 @@
 define([
-	'./api'
-], function(ApiBase) {
+	'./markdownRender'
+], function(MarkdownRender) {
 
-	var MvvmApi = ApiBase.extend({
+	var MvvmMarkdown = MarkdownRender.extend({
 		init: function(config) {
 			config = this.cover(config, {
 				'url': 'static/mvvm-api.md'
@@ -11,5 +11,5 @@ define([
 		}
 	});
 
-	return MvvmApi;
+	return MvvmMarkdown;
 });

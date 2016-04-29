@@ -3,12 +3,14 @@
 }
 
 body {
+	position: relative;
 	padding: 0;
 	margin: 0;
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 16px;
+	font-size: 18px;
 	line-height: 1.5;
 	color: black;
+	overflow-x: hidden;
 }
 
 a {
@@ -20,7 +22,7 @@ a:hover {
 }
 
 /* 头部 */
-.header{
+header{
 	color: #fff;
 	padding: 2rem 4rem;
 	position: relative;
@@ -28,7 +30,7 @@ a:hover {
 	background-color: #159957;
 	background-image: linear-gradient(120deg, rgba(33, 150, 243, 0.69), #009688);
 }
-.header .fork{
+header .fork{
 	display: block;
 	position: absolute;
 	right: -50px;
@@ -44,11 +46,38 @@ a:hover {
 	transform: rotate(45deg);
 }
 
-/* 分隔容器 */
-.section{
+/* 侧边导航栏 */
+aside{
+	width: 154px;
+	height: 200px;
+	position: fixed;
+	right: 0;
+}
+aside ul{
+	padding: 0 1rem;
+	/*list-style: none;*/
+	list-style-position: inside;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+aside ul li{
+	position: relative;
+}
+aside ul li a{
+	display: block;
+	padding: 0.8rem 0;
+	border-bottom: 1px solid green;
+}
+
+/* markdown 内容容器 */
+article{
 	width: 75%;
 	margin: 0 auto;
 }
-.section img{
+article img{
 	width: 100%;
+}
+article .anchor{
+	color: black;
 }
