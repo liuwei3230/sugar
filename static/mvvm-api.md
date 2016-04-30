@@ -1,4 +1,5 @@
-# Api of mvvm.js
+# mvvm.js
+---
 
 `mvvm.js` 是一个非常轻量的 mvvm 库，指令系统功能齐全，能满足基本的 mvvm 模式开发需求。 **`mvvm` 对 `sugar` 没有任何依赖，如果只需要 mvvm 的功能而不需要组件模块化可直接使用 mvvm.js ~**
 

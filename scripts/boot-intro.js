@@ -8,8 +8,9 @@ define([
 	'sugar',
 	'./header',
 	'./aside',
-	'./intro'
-], function(sugar, Header, Aside, IntroMarkdown) {
+	'./intro',
+	'./footer'
+], function(sugar, Header, Aside, IntroMarkdown, Footer) {
 
 	var Main = sugar.Component.extend({
 		init: function(config) {
@@ -32,7 +33,13 @@ define([
 
 			// 介绍 markdown 模块
 			this.create('markdown', IntroMarkdown, {
-				'target': document.querySelector('article')
+				'hasAnchor': false,
+				'target'   : document.querySelector('article')
+			});
+
+			// 页脚
+			this.create('footer', Footer, {
+				'target': document.querySelector('footer')
 			});
 		}
 	});

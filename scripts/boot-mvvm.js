@@ -9,7 +9,8 @@ define([
 	'./header',
 	'./aside',
 	'./md-mvvm',
-], function(sugar, Header, Aside, MvvmMarkdown) {
+	'./footer',
+], function(sugar, Header, Aside, MvvmMarkdown, Footer) {
 
 	var Main = sugar.Component.extend({
 		init: function(config) {
@@ -33,6 +34,11 @@ define([
 			// MVVM markdown 模块
 			this.create('markdown', MvvmMarkdown, {
 				'target': document.querySelector('article')
+			});
+
+			// 页脚
+			this.create('footer', Footer, {
+				'target': document.querySelector('footer')
 			});
 		}
 	});

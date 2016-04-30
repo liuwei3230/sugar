@@ -1,4 +1,5 @@
-# Api of sugar.js
+# sugar.js
+---
 
 ## 1. 组件模块化机制
 根函数模块 `src/main/root.js` 实现 sugar 底层模块的继承方法 `extend`，每个模块都是从 `Root` 为根源继承而来， `extend` 是一个通过原型实现的类式继承（单继承），对传入的每个子类方法会挂载一个 `Super` 来实现对父类的调用。
@@ -107,11 +108,12 @@ var Page = sugar.Component.extend({
 
 
 # API
+---
 
-## 1、Module基础模块实例方法
+## 1、Module 基础模块实例方法
 系统模块基础类，实现所有模块的通用方法
 
-* ##### _同步创建子模块实例：_ `create(name, Class, config)`
+* #### `create(name, Class, config)` 同步创建子模块实例
 
 	* 参数说明：
 		```json
@@ -136,8 +138,8 @@ var Page = sugar.Component.extend({
 		});
 		```
 
----
-* ##### _获取当前模块实例的父模块实例（创建者）：_ `getParent()`
+
+* #### `getParent()` 获取当前模块实例的父模块实例（创建者）
 
 	* 参数说明：不需要参数
 
@@ -171,8 +173,8 @@ var Page = sugar.Component.extend({
 		var parent = main.getParent(); // => null
 		```
 
----
-* ##### _获取当前模块实例的指定子模块实例：_ `getChild(name)`
+
+* #### `getChild(name)` 获取当前模块实例的指定子模块实例
 
 	* 参数说明：
 		```json
@@ -199,8 +201,8 @@ var Page = sugar.Component.extend({
 		});
 		```
 
----
-* ##### _获取当前模块实例的所有子模块实例：_ `getChilds(returnArray)`
+
+* #### `getChilds(returnArray)` 获取当前模块实例的所有子模块实例
 
 	* 参数说明：
 		```json
@@ -242,8 +244,8 @@ var Page = sugar.Component.extend({
 		});
 		```
 
----
-* ##### _修正作用域的定时器：_ `setTimeout(callback, time, param)`
+
+* #### `setTimeout(callback, time, param)` 修正作用域的定时器
 
 	* 参数说明：
 		```json
@@ -272,8 +274,8 @@ var Page = sugar.Component.extend({
 		});
 		```
 
----
-* ##### _模块通信：冒泡方式发送消息：_ `fire(name, param, callback)`
+
+* #### `fire(name, param, callback)` 模块通信：冒泡方式发送消息
 
 	* 参数说明：
 		```json
@@ -328,8 +330,8 @@ var Page = sugar.Component.extend({
 		// 以上，消息的传递顺序为子模块->父模块：Nav -> Header -> Page
 		```
 
----
-* ##### _模块通信：向下广播方式发送消息：_ `broadcast(name, param, callback)`
+
+* #### `broadcast(name, param, callback)` 模块通信：向下广播方式发送消息
 
 	* 参数说明：
 		```json
@@ -392,8 +394,8 @@ var Page = sugar.Component.extend({
 		// 以上，消息的传递顺序为父模块->子模块：Page -> Header -> Nav、LOGO
 		```
 
----
-* ##### _模块通信：向指定的模块发送消息：_ `notify(receiver, name, param, callback)`
+
+* #### `notify(receiver, name, param, callback)` 模块通信：向指定的模块发送消息
 
 	* 参数说明：
 		```json
@@ -424,8 +426,8 @@ var Page = sugar.Component.extend({
 		sugar.core.create('page_b', PageB);
 		```
 
----
-* ##### _模块销毁：_ `destroy(notify)`
+
+* #### `destroy(notify)` 模块销毁
 
 	* 参数说明：
 		```json
@@ -449,7 +451,7 @@ var Page = sugar.Component.extend({
 ## 2、core 实例方法
 core 是由 sugar 中的核心实例（继承于 Module 类），所以拥有以上基础模块所有的实例方法，另外拓展了两个自身方法：
 
-* ##### _获取顶层模块实例：_ `get(name)`
+* #### `get(name)` 获取顶层模块实例
 
 	* 参数说明：
 		```json
@@ -460,8 +462,8 @@ core 是由 sugar 中的核心实例（继承于 Module 类），所以拥有以
 
 	* 特殊说明：该方法只是实现用 sugar.core.get(name) 来代替 sugar.core.getChild(name) 而已，两者相同
 
----
-* ##### _模块通信：全局广播消息：_ `globalCast(name, param)`
+
+* #### `globalCast(name, param)` 模块通信：全局广播消息
 
 	* 参数说明：
 		```json
@@ -482,7 +484,7 @@ core 是由 sugar 中的核心实例（继承于 Module 类），所以拥有以
 ## 3、Component 视图组件实例方法
 Component 类继承于 Module 类，所以 Component 的实例也有基础模块实例的所有方法。为了完善视图操作，自身拓展了一些方法和属性
 
-* ##### _视图组件状态/参数初始化：_ `init(config, parent)`
+* #### `init(config, parent)` 视图组件状态/参数初始化
 
 	* 参数说明：
 		```json
@@ -540,8 +542,8 @@ Component 类继承于 Module 类，所以 Component 的实例也有基础模块
 		 */
 		```
 
----
-* ##### _获取模块配置：_ `getConfig(name)`
+
+* #### `getConfig(name)` 获取模块配置
 
 	* 参数说明：
 		```json
@@ -572,8 +574,8 @@ Component 类继承于 Module 类，所以 Component 的实例也有基础模块
 		});
 		```
 
----
-* ##### _设置模块配置：_ `setConfig(name, value)`
+
+* #### `setConfig(name, value)` 设置模块配置
 
 	* 参数说明：
 		```json
@@ -606,8 +608,8 @@ Component 类继承于 Module 类，所以 Component 的实例也有基础模块
 		```
 
 
----
-* ##### _获取/查找视图组件的DOM元素：_ `query(selector)`
+
+* #### `query(selector)` 获取/查找视图组件的DOM元素
 
 	* 参数说明：
 		```json
@@ -635,8 +637,8 @@ Component 类继承于 Module 类，所以 Component 的实例也有基础模块
 		});
 		```
 
----
-* ##### _获取/查找视图组件的DOM元素：_ `queryAll(selectors)`
+
+* #### `queryAll(selectors)` 获取/查找视图组件的DOM元素
 
 	* 参数说明：
 		```json
@@ -645,23 +647,19 @@ Component 类继承于 Module 类，所以 Component 的实例也有基础模块
 
 	* 返回值：NodeList
 
----
-* ##### _为元素添加绑定事件：_ `bind(elm, event, callback, capture)`
 
-	```
+* #### `bind(elm, event, callback, capture)` 为元素添加绑定事件
+
 	（参见 addEventListener 方法）
-	```
 
----
-* ##### _从元素上移除事件绑定：_ `unbind(elm, event, callback, capture)`
 
-	```
+* #### `unbind(elm, event, callback, capture)` 从元素上移除事件绑定
+
 	（参见 removeEventListener 方法）
-	```
 
 
 ## 4、ajax 实例方法
-* ##### _GET 请求：_ `sugar.ajax.get(uri, param, callback, context)`
+* #### `sugar.ajax.get(uri, param, callback, context)` Ajax GET 请求
 
 	* 参数说明：
 		```json
@@ -689,15 +687,13 @@ Component 类继承于 Module 类，所以 Component 的实例也有基础模块
 		});
 		```
 
----
-* ##### _POST 请求：_ `sugar.ajax.post(uri, param, callback, context)`
 
-	```
+* #### `sugar.ajax.post(uri, param, callback, context)` Ajax POST 请求
+
 	（参照 get 请求）
-	```
 
----
-* ##### _加载静态模板文件：_ `sugar.ajax.load(uri, param, callback, context)`
+
+* #### `sugar.ajax.load(uri, param, callback, context)` 加载静态文本文件
 
 	* 参数说明：（参照 get 请求）
 
