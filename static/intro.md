@@ -126,6 +126,4 @@ sugar.js 由两个完全独立的部分组成：
 * [简单的日期选择组件](http://tangbc.github.io/sugar/demos/date/)
 * 本页面也是用 `sugar` 开发的，各组件源代码在 [gh-pages](https://github.com/tangbc/sugar/tree/gh-pages) 分支上
 
-
-
 欢迎各种吐槽、意见和 [issue](https://github.com/tangbc/sugar/issues) 反馈！

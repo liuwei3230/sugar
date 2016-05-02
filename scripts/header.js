@@ -12,6 +12,11 @@ define([
 				'template': 'template/header.tpl'
 			});
 			this.Super('init', arguments);
+		},
+
+		show: function() {
+			var target = this.getConfig('target');
+			target.style.display = 'block';
 		}
 	});
 

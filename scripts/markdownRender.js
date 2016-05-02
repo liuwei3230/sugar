@@ -53,8 +53,9 @@ define([
 			prism.highlightAll();
 
 			// 发送渲染完毕消息
-			this.notify('main.aside', 'markdownRendered');
-			this.notify('main.footer', 'markdownRendered');
+			this.fire('markdownRendered');
+			// this.notify('main.aside', 'markdownRendered');
+			// this.notify('main.footer', 'markdownRendered');
 		}
 	});
 

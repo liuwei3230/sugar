@@ -6,13 +6,15 @@ require.config({
 
 define([
 	'sugar',
+	'./boot',
+	'./loading',
 	'./header',
 	'./aside',
 	'./md-sugar',
 	'./footer',
-], function(sugar, Header, Aside, SugarMarkdown, Footer) {
+], function(sugar, Boot, Loading, Header, Aside, SugarMarkdown, Footer) {
 
-	var Main = sugar.Component.extend({
+	var Main = Boot.extend({
 		init: function(config) {
 			config = this.cover(config, {
 				'target'  : document.querySelector('body')
@@ -21,6 +23,11 @@ define([
 		},
 
 		viewReady: function() {
+			// loading
+			this.create('loading', Loading, {
+				'target': this.el
+			});
+
 			// 头部
 			this.create('header', Header, {
 				'target': document.querySelector('header')

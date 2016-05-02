@@ -14,8 +14,7 @@ define([
 			this.Super('init', arguments);
 		},
 
-		// markdown 渲染完毕消息
-		onMarkdownRendered: function() {
+		show: function() {
 			var target = this.getConfig('target');
 			target.style.display = 'block';
 		}

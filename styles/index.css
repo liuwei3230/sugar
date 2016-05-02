@@ -23,6 +23,7 @@ a:hover {
 
 /* 头部 */
 header{
+	display: none;
 	color: #fff;
 	padding: 2rem 4rem;
 	position: relative;
@@ -48,6 +49,7 @@ header .fork{
 
 /* 侧边导航栏 */
 aside{
+	display: none;
 	width: 154px;
 	height: 200px;
 	position: fixed;
@@ -112,4 +114,24 @@ footer .footNote a:hover{
 }
 footer .footNote span{
 	margin: 0 .5rem;
+}
+
+.loadBox{
+	color: #009688;
+	width: 130px;
+	margin: 8rem auto;
+}
+.time {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    animation: ellipsis 1s infinite;
+}
+@keyframes ellipsis {
+    from {
+        width: 2px;
+    }
+    to {
+        width: 40px;
+    }
 }
