@@ -13,7 +13,7 @@ define([
 				'model'   : {
 					'active': config.active,
 					'items' : [
-						{'text': '框架介绍', 'href': '/'},
+						{'text': '框架介绍', 'href': 'index.html'},
 						{'text': 'Sugar API', 'href': 'sugar.html'},
 						{'text': 'MVVM API', 'href': 'mvvm.html'},
 						{'text': 'Github repo', 'href': 'https://github.com/tangbc/sugar'}
