@@ -35,7 +35,7 @@ define([
 				renderer = new marked.Renderer();
 				// 渲染标题锚点
 				renderer.heading = function _render(text, level) {
-					var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+					var escapedText = text.replace(/<(\w+)>|<\/(\w+)>|\(.*\)/g, '').replace(/[\d\.\s]+/g, '-');
 					return [
 						'<h' + level + '>',
 							'<a name="' + escapedText + '" class="anchor" href="#' + escapedText + '">',
@@ -53,9 +53,31 @@ define([
 			prism.highlightAll();
 
 			// 发送渲染完毕消息
-			this.fire('markdownRendered');
+			this.fire('markdownRendered', this.afterMessage);
 			// this.notify('main.aside', 'markdownRendered');
 			// this.notify('main.footer', 'markdownRendered');
+		},
+
+		// 定位滚动条至锚点位置
+		afterMessage: function() {
+			var uri = window.location.toString();
+			var anchor = uri.split('#')[1], elm, top = 0;
+
+			if (anchor) {
+				elm = document.querySelector('a.anchor[href="#'+ decodeURIComponent(anchor) +'"]');
+
+				if (!elm) {
+					return;
+				}
+
+				top = elm.offsetTop;
+
+				while (elm = elm.offsetParent) {
+					top += elm.offsetTop;
+				}
+
+				window.scrollTo(0, top);
+			}
 		}
 	});
 

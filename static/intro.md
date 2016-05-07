@@ -100,13 +100,19 @@ var ABCDEComponent = ABCDComponent.extend({/**/});
 
 # 3. sugar.js 组成和实现
 
-sugar.js 由两个完全独立的部分组成：
+`sugar.js` 由两个完全独立开发的部分组成：
 
-1. **`sugar/main`** 实现组件系统的底层架构，包括组件的继承机制，视图的定义、初始化、渲染，组件间的消息通信、Ajax 异步请求等基础功能。
+1. **`sugar/main`** 实现组件系统底层 Api 和胶水代码的设计，包括组件的继承机制，视图的定义、初始化、渲染，组件间的消息通信、Ajax 异步请求等基础功能（这一部分占总代码量的 1/4）。
 
-2. **`sugar/mvvm`** 一个利用数据绑定 + 视图刷新实现的 MVVM 库，指令的名称和用法与尤大的 `Vue.js` 相似，但实现的细节和依赖监听机制有很大的不同。
+2. **`sugar/mvvm`** 一个利用数据绑定 + 视图刷新实现的 MVVM 库，指令的名称和用法与尤大的 `Vue.js` 相似，但实现的细节和依赖监听机制有很大的不同（这一部分占总代码量的 3/4）。
 
-两个部分的独立增加了组件开发的可选择性：可以选择用 MVVM 模式开发，可以用传统的 DOM 操作开发，也可以两者混合开发。
+两个部分的独立意味着组件开发的时候可以选择：
+
+1. MVVM 模式开发
+
+2. 原生 DOM 开发
+
+3. 两者混合开发。
 
 **mvvm 对 sugar 没有任何依赖，如果只需要 mvvm 的功能而不需要组件功能可直接使用 mvvm.js **。
 
@@ -117,13 +123,13 @@ sugar.js 由两个完全独立的部分组成：
 
 * `sugar.js` 和 `mvvm.js` 都利用 webpack 进行了 [UMD](https://github.com/umdjs/umd#readme) 包装，支持 `AMD` `CMD` 和 `script` 标签引用。
 
-* 没有任何第三方库依赖，都是用原生 javascript 来实现，用了比较多的 `ES5` 特性，所以不支持低版本 IE。
+* 没有任何第三方库的依赖，全部原生 javascript 实现，用了比较多的 `ES5` 特性，所以不支持低版本 IE。
 
 
 # 5. 一些使用示例
 
 * [打星评分组件](http://tangbc.github.io/sugar/demos/star/)
 * [简单的日期选择组件](http://tangbc.github.io/sugar/demos/date/)
-* 本页面也是用 `sugar` 开发的，各组件源代码在 [gh-pages](https://github.com/tangbc/sugar/tree/gh-pages) 分支上
+* 本页面也是用 `sugar` 开发的，源代码在 [sugar/gh-pages](https://github.com/tangbc/sugar/tree/gh-pages) 分支上
 
 欢迎各种吐槽、意见和 [issue](https://github.com/tangbc/sugar/issues) 反馈！

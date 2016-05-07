@@ -110,7 +110,7 @@ var Page = sugar.Component.extend({
 # API
 ---
 
-## 1、Module 基础模块实例方法
+## 1. Module 基础模块实例方法
 系统模块基础类，实现所有模块的通用方法
 
 * #### `create(name, Class, config)` 同步创建子模块实例
@@ -448,7 +448,7 @@ var Page = sugar.Component.extend({
 		```
 
 
-## 2、core 实例方法
+## 2. core 实例方法
 core 是由 sugar 中的核心实例（继承于 Module 类），所以拥有以上基础模块所有的实例方法，另外拓展了两个自身方法：
 
 * #### `get(name)` 获取顶层模块实例
@@ -481,7 +481,7 @@ core 是由 sugar 中的核心实例（继承于 Module 类），所以拥有以
 		```
 
 
-## 3、Component 视图组件实例方法
+## 3. Component 视图组件实例方法
 Component 类继承于 Module 类，所以 Component 的实例也有基础模块实例的所有方法。为了完善视图操作，自身拓展了一些方法和属性
 
 * #### `init(config, parent)` 视图组件状态/参数初始化

@@ -40,7 +40,7 @@ define([
 
 			// 介绍 markdown 模块
 			this.create('markdown', IntroMarkdown, {
-				'hasAnchor': false,
+				'hasAnchor': true,
 				'target'   : document.querySelector('article')
 			});
 
