@@ -67,6 +67,7 @@ vm.watch('title', callback); // 实现对数据模型的观察 callback 参数�
 
 
 ## 2. 所有指令详细说明
+<u>**以下所有指令的使用都可以在这里修改代码进行预览: [jsfiddle](https://jsfiddle.net/tangbc/t4b9r4np/2/)**</u>
 
 ### v-el
 * 说明：
