@@ -31,6 +31,7 @@ mvvm.js 的源代码都放在 `src/mvvm/` 目录下：
 	* [v-bind:style](#v-bind:style)
 * [v-on](#v-on)
 * [v-for](#v-for)
+* [v-pre](#v-pre)
 
 
 ## 1. 定义一个 mvvm 实例
@@ -296,7 +297,9 @@ vm.watch('title', callback); // 实现对数据模型的观察 callback 参数�
 ### v-on
 * 说明：
 
-	事件的绑定方式是 `addEventListener` 支持4种事件修饰符：只在当前元素触发 `.self` 、 阻止冒泡 `.stop` 、 阻止默认事件 `.prevent` 和 使用捕获 `.capture` 可以指定事件回调的参数(默认为原生事件对象 e )，比如 `$event` 替换为 e 在 `v-for` 中 `$index` 替换为循环数组下标
+	事件的绑定方式是 `addEventListener` 支持4种事件修饰符：只在当前元素触发 `.self` 、 阻止冒泡 `.stop` 、 阻止默认事件 `.prevent` 和 使用捕获 `.capture` 可以指定事件回调的参数(默认为原生事件对象 e )，比如 `$event` 替换为 e
+
+	此外 `v-on` 还支持为键盘指定键值来限定触发事件，只需在事件后面加上指定的 `keyCode` 即可
 
 * 示例：
 
@@ -317,6 +320,11 @@ vm.watch('title', callback); // 实现对数据模型的观察 callback 参数�
 	一次绑定多个事件：
 	```html
 	<button v-on="{'click': clickBtn, 'mouseover': overBtn(123, $event， 'abc')}"></button>
+	```
+
+	指定按下 enter 键触发
+	```html
+	<input type="text" v-on:keyup.13="pressEnter"/>
 	```
 
 ### v-for
@@ -366,6 +374,18 @@ vm.watch('title', callback); // 实现对数据模型的观察 callback 参数�
 			{{ option.text }}
 		</option>
 	</select>
+	```
+
+
+### v-pre
+* 说明
+
+	跳过编译这个元素和它的所有子元素，跳过大量没有指令的节点会加快编译的速度。
+
+* 示例
+
+	```html
+	<div v-pre>{{ this will not be compiled }}</div>
 	```
 
 ## 3. 继续完善和维护中 ……
