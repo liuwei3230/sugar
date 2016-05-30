@@ -131,5 +131,6 @@ var ABCDEComponent = ABCDComponent.extend({/**/});
 * [打星评分组件](http://tangbc.github.io/sugar/demos/star/)
 * [简单的日期选择组件](http://tangbc.github.io/sugar/demos/date/)
 * 本页面也是用 `sugar` 开发的，源代码在 [sugar/gh-pages](https://github.com/tangbc/sugar/tree/gh-pages) 分支上
+* [简单的 TodoMVC 应用](http://tangbc.github.io/sugar/demos/todoMVC)
 
 欢迎各种吐槽、意见和 [issue](https://github.com/tangbc/sugar/issues) 反馈！
