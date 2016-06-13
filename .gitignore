@@ -8,3 +8,5 @@ bin
 temp
 test
 npm-debug.log
+testem.yml
+gulpfile.js
