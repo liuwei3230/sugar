@@ -1,13 +1,8 @@
 node_modules
-build
-src
 README.EN.md
 README.md
 logs.text
 bin
 temp
-test
-npm-debug.log
-gulpfile.js
 npm-debug.log
 test/coverage
