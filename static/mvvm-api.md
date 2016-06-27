@@ -53,8 +53,13 @@ vm.$ 为数据模型对象
 
 // 返回 初始标题
 vm.get('title');
-// 返回 整个数据模型（即 vm.$）
+// 返回 整个数据模型（即 vm.$）保持引用关系
 vm.get();
+
+// 返回 初始标题
+vm.getItem('title');
+// 返回 整个数据模型的副本，不保持引用关系，会将私有属性和对象存取描述过滤掉
+vm.getItem();
 
  // 设置单个 vm
 vm.set('title', '新标题');
@@ -171,6 +176,27 @@ vm.watch('title', callback, deep);
 	<div>Selected: {{sex}}</div>
 	```
 
+	默认的绑定数值都默认是 `String` 类型的：
+	```html
+	<label>
+		<input type="radio" v-model="sel" value="1"> Radio
+	</label>
+	```
+	```javascript
+	vm.get('sel') === '1' // true
+	```
+
+	如果希望数据模型中的值为 `Number` 类型，只需要在表单加上 `number` 属性即可：
+	```html
+	<label>
+		<input type="radio" v-model="sel" value="1" number> Radio
+	</label>
+	```
+	```javascript
+	vm.get('sel') === 1 // true
+	```
+
+
 ### v-model for checkbox
 * 示例：
 
@@ -204,6 +230,8 @@ vm.watch('title', callback, deep);
 	<div>Selected: {{phones}}</div>
 	```
 
+	**同样的，需要数据模型转换为 `Number` 类型的只需加上 `number` 属性即可，参见 `v-model for radio`**
+
 ### v-model for select
 * 示例：
 
@@ -232,6 +260,8 @@ vm.watch('title', callback, deep);
 	</select>
 	<span>Selected: {{selected}}</span>
 	```
+
+	**同样的，需要数据模型转换为 `Number` 类型的只需加上 `number` 属性即可，参见 `v-model for radio`**
 
 ### v-bind
 * 说明：
