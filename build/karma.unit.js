@@ -46,6 +46,21 @@ module.exports = function(config) {
 					'src': path.resolve(__dirname, '../src'),
 					'mvvm': path.resolve(__dirname, '../src/mvvm/index')
 				}
+			},
+			'module': {
+				'loaders': [
+					{
+						'test': /\.js$/,
+						'exclude': [
+							path.resolve(__dirname, '../test/units'),
+							path.resolve(__dirname, '../node_modules')
+						],
+						'loader': 'babel', // 'babel-loader' is also a legal name to reference
+						'query': {
+							'presets': ['es2015']
+						}
+					}
+				]
 			}
 		},
 

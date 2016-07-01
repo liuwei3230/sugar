@@ -7,3 +7,4 @@ temp
 npm-debug.log
 test/coverage
 .travis.yml
+bundle
