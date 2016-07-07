@@ -146,15 +146,15 @@ cp.compileAll = function() {
  */
 cp.complieDirectives = function(info) {
 	var node = info[0], fors = info[1];
-	var atr, name, _vfor, attrs = [], nodeAttrs;
 
 	if (this.isElementNode(node)) {
+		let _vfor, attrs = [];
 		// node 节点集合转为数组
-		nodeAttrs = node.attributes;
+		let nodeAttrs = node.attributes;
 
 		for (var i = 0; i < nodeAttrs.length; i++) {
-			atr = nodeAttrs[i];
-			name = atr.name;
+			let atr = nodeAttrs[i];
+			let name = atr.name;
 			if (this.isDirective(name)) {
 				if (name === 'v-for') {
 					_vfor = atr;
@@ -231,7 +231,7 @@ cp.compile = function(node, attr, fors) {
 				break;
 			case 'v-pre':
 				break;
-			default: util.warn(dir + ' is an unknown directive!');
+			default: util.warn('[' + dir + '] is an unknown directive!');
 		}
 	}
 }
@@ -244,21 +244,20 @@ cp.compile = function(node, attr, fors) {
 cp.compileText = function(node, fors) {
 	var exp, match, matches, pieces, tokens = [];
 	var text = node.textContent.trim().replace(/\n/g, '');
-	var regtext = /\{\{(.+?)\}\}/g, reghtml = /\{\{\{(.+?)\}\}\}/g;
-	var isText = regtext.test(text), isHtml = reghtml.test(text);
+	var reghtml = /\{\{\{(.+?)\}\}\}/g, regtext = /\{\{(.+?)\}\}/g;
 
 	// html match
-	if (isHtml) {
+	if (reghtml.test(text)) {
 		matches = text.match(reghtml);
 		match = matches[0];
 		exp = match.replace(/\s\{|\{|\{|\}|\}|\}/g, '');
 		if (match.length !== text.length) {
-			return util.warn('\'' + text + '\' compile for HTML can not have a prefix or suffix!');
+			return util.warn('[' + text + '] compile for HTML can not have a prefix or suffix!');
 		}
 		this.vhtml.parse.call(this.vhtml, fors, node, exp);
 	}
 	// text match
-	else if (isText) {
+	else {
 		pieces = text.split(regtext);
 		matches = text.match(regtext);
 
@@ -343,6 +342,17 @@ cp.checkCompleted = function() {
 cp.rootCompleted = function() {
 	this.$rootComplied = true;
 	this.$element.appendChild(this.$fragment);
+}
+
+/**
+ * 销毁 vm 编译实例
+ * @return  {[type]}  [description]
+ */
+cp.destroy = function() {
+	this.watcher.destroy();
+	dom.empty(this.$element);
+	this.$fragment = this.$data = this.$unCompileNodes = this.updater = this.$inputs = null;
+	this.von = this.vel = this.vif = this.vfor = this.vtext = this.vhtml = this.vshow = this.vbind = this.vmodel = null;
 }
 
 export default Compiler;
